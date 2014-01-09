@@ -7,6 +7,7 @@ WorldRenderer::WorldRenderer(JNIEnv* env, jint _width, jint _height, jobject _pn
 	art->setupGraphics(_width, _height);
 	initLogic();
 	LOGI("Engine::constructor finished");
+
 }
 
 
@@ -30,8 +31,15 @@ void WorldRenderer::render(){
 	glClear( GL_DEPTH_BUFFER_BIT | GL_COLOR_BUFFER_BIT);
 	checkGlError("glClear");
 	world->getPlayer()->animate();
-	draw(world->getPlayer()->getTexture(), world->getPlayer()->getPosition()->getX(),world->getPlayer()->getPosition()->getY());
 		glUseProgram(art->stableProgram);
+
+	for(int i=0; i < world->bricks->size()-1; i++){
+		draw(world->bricks->get(i)->getTexture(),
+				world->bricks->get(i)->getPosition()->getX(),
+				world->bricks->get(i)->getPosition()->getY());
+	}
+	draw(world->getPlayer()->getTexture(), world->getPlayer()->getPosition()->getX(),world->getPlayer()->getPosition()->getY());
+
 }
 
 void WorldRenderer::create(GLuint _shiftProgram, Art* _art){

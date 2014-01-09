@@ -4,6 +4,7 @@ WorldController::WorldController(World* _world,WorldRenderer* worldRenderer) {
 	this->worldRenderer = worldRenderer;
 	this->world = _world;
 	this->worldRenderer->setWorld(world);
+	direction = LEFT;
 }
 
 void WorldController::startGame() {
@@ -28,7 +29,7 @@ void WorldController::newGame() {
 
 void WorldController::actionPerformed() {
 
-	world->tryToPlayerGo();
+	world->tryToPlayerGo(direction);
 	worldRenderer->render();
 }
 
@@ -48,23 +49,23 @@ void WorldController::onTouch(int ACTION, int x, int y) {
 		break;
 	case TOUCH_MOVE:
 		if (touchX > x && abs(x - touchX) > 20 && abs(y - touchY) < 60)
-			world->getPlayer()->setDirection(LEFT);
+			direction = LEFT;
 		if (touchX < x && abs(x - touchX) > 20 && abs(y - touchY) < 60)
-			world->getPlayer()->setDirection(RIGHT);
+			direction = RIGHT;
 		if (touchY > y && abs(y - touchY) > 20 && abs(x - touchX) < 60)
-			world->getPlayer()->setDirection(UP);
+			direction = UP;
 		if (touchY < y && abs(y - touchY) > 20 && abs(x - touchX) < 60)
-			world->getPlayer()->setDirection(DOWN);
+			direction = DOWN;
 		break;
 	case TOUCH_UP:
 		if (touchX > x && abs(y - touchY) < 60)
-			world->getPlayer()->setDirection(LEFT);
+			direction = LEFT;
 		if (touchX < x && abs(y - touchY) < 60)
-			world->getPlayer()->setDirection(RIGHT);
+			direction = RIGHT;
 		if (touchY > y && abs(x - touchX) < 60)
-			world->getPlayer()->setDirection(UP);
+			direction = UP;
 		if (touchY < y && abs(x - touchX) < 60)
-			world->getPlayer()->setDirection(DOWN);
+			direction = DOWN;
 		break;
 	}
 }

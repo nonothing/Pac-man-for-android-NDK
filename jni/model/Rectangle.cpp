@@ -13,18 +13,27 @@ int Rectangle::getY() {
 int Rectangle::getX() {
         return x;
 }
-bool Rectangle::intersects(Rectangle r) {
+
+int Rectangle::getHeight(){
+	return height;
+}
+
+int Rectangle::getWidht(){
+	return width;
+}
+
+bool Rectangle::intersects(Rectangle* r) {
         int tw = this->width;
         int th = this->height;
-        int rw = r.width;
-        int rh = r.height;
+        int rw = r->width;
+        int rh = r->height;
         if (rw <= 0 || rh <= 0 || tw <= 0 || th <= 0) {
             return false;
         }
         int tx = this->x;
         int ty = this->y;
-        int rx = r.x;
-        int ry = r.y;
+        int rx = r->x;
+        int ry = r->y;
         rw += rx;
         rh += ry;
         tw += tx;

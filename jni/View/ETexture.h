@@ -17,6 +17,12 @@ enum ETexture {
 	pacmanDownOpen,
 	pacmanDownClose,
 
+	//map
+	background,horizontal,vertical,point,
+	angle_ld,angle_lv,angle_rd,angle_rv,
+	arc_down,arc_left,arc_right,arc_up,
+	arc2_down,arc2_left,arc2_right,arc2_up,
+
 	TEXTURES_COUNT,
 
 };

@@ -1,3 +1,5 @@
+#ifndef Player_H_
+#define Player_H_
 #include "WorldObjectMove.h"
 #include "View/ETexture.h"
 
@@ -31,3 +33,4 @@ Player(Point* position , int texture ,int width, int height);
     void setLife(int life);
 
 };
+#endif /* Player_H_ */

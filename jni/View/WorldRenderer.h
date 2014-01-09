@@ -5,6 +5,7 @@
 
 #include "Art.h"
 #include "model/World.h"
+#include "templates/list.h"
 
 class WorldRenderer{
 public:

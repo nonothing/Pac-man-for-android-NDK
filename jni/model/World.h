@@ -3,11 +3,16 @@
 
 #include "Player.h"
 #include "Point.h"
+#include "Brick.h"
+#include "View/ETexture.h"
+#include  "templates/list.h"
+#include "log.h"
 class World {
     
  private:
 	 Player* player;
 //  List<Spirit> spirits;
+
   int  width;
   int  height;
   int countPoint;
@@ -26,20 +31,22 @@ class World {
 
  public:
   World();
+  World(List<Brick*>* b);
 //  World(Level level, int record);
 //     void startPointSpirit(Level level) ;
 //     void nextLevel(Level level, int record);
+	 List<Brick*>* bricks;
      void startPointPlayer();
      void createSpirit() ;
      void generateFruit();
-     bool collidesWithLevel(Rectangle rect) ;
-     int collidesWithRefresh(Rectangle rect);
+     bool collidesWithLevel(Rectangle* rect) ;
+     int collidesWithRefresh(Rectangle* rect);
      int generationPoint();
      void newGame();
      bool eatFruit();
      bool eatPoint();
      bool eatBonus();
-     void tryToPlayerGo();
+     void tryToPlayerGo(int direction);
      void defenceNPC();
      void attackNPC() ;
      bool deadPlayer ();

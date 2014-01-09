@@ -13,7 +13,6 @@ Art::Art(){
 	textures = NULL;
 
 
-	levels = NULL;
 	levelsTexCoords = NULL;
 	levelsCount = 0;
 }
@@ -40,7 +39,7 @@ void Art::init(JNIEnv* env, jint _screenWidth, jint _screenHeight, jobject _pngM
 	screenHeight = _screenHeight;
 
 
-	loadLevels();
+//	loadLevels();
 	loadTextures();
 
 	shadersSources = new char*[SHADERS_COUNT];
@@ -76,9 +75,6 @@ GLuint Art::getShaderProgram(int id){
 	return (0 <= id && id < SHADER_PROGRAMS_COUNT) ? shaderPrograms[id] : SHADER_PROGRAM_NONE;
 }
 
-Level* Art::getLevel(int number){
-	return (number >= 0 && number < levelsCount) ? levels[number] : NULL;
-}
 
 GLfloat* Art::getLevelTexCoords(int number){
 	return (number >= 0 && number < levelsCount) ? levelsTexCoords[number] : NULL;
@@ -131,15 +127,6 @@ void Art::freeENV(JNIEnv* env){
 		shaderPrograms = NULL;
 	}
 
-	if(levels){
-		for(int i = 0; i < levelsCount; ++i){
-			if(levels[i]){
-				delete levels[i];
-			}
-		}
-		delete[] levels;
-		levels = NULL;
-	}
 
 	if(levelsTexCoords){
 		for(int i = 0; i < levelsCount; ++i){
@@ -199,26 +186,32 @@ void Art::generateTextures(){
 	LOGI("Art::generateTextures");
 
 	textures = new GLuint[TEXTURES_COUNT];
+	LOGI("Art::new textures");
 	for(int i = 0; i < TEXTURES_COUNT; ++i){
+		LOGI("Art::for");
 		textures[i] = texturesSources[i] ? createTexture(texturesSources[i]) : TEXTURE_NONE;
 	}
+	LOGI("Art::forend");
 	textures[TEXTURE_BRUSHES] = generateBrushesTexture();
+	LOGI("Art::end");
 }
 
 GLuint Art::createTexture(Texture* texture){
+	LOGI("Art::createTexture");
 	GLuint textureId;
+	LOGI("Art::textureId");
 	glGenTextures(1, &textureId);
-
+	LOGI("Art::glGenTextures");
 	glBindTexture(GL_TEXTURE_2D, textureId);
-
+	LOGI("Art::glBindTexture");
 	glTexParameterf(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, GL_NEAREST);
 	glTexParameterf(GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, GL_NEAREST);
-
+	LOGI("Art::glTexParameterf");
 	glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_S, GL_REPEAT);
 	glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_T, GL_REPEAT);
-
+	LOGI("Art::glTexParameteri");
 	glTexImage2D(GL_TEXTURE_2D, 0, GL_RGBA, texture->width, texture->height, 0, GL_RGBA, GL_UNSIGNED_BYTE, texture->pixels);
-
+	LOGI("Art::glTexImage2D");
 	return textureId;
 }
 
@@ -353,66 +346,45 @@ char* Art::argb2rgba(unsigned int* pixels, int w, int h){
 	return result;
 }
 
-List<char*> Art::loadFilesList(const char* path){
-	LOGI("Art::loadFilesList(%s)", path);
-
-	List<char*> result;
-	AAssetDir* assetDir = AAssetManager_openDir(assetManager, path);
-	const char* c;
-	while(((c = AAssetDir_getNextFileName(assetDir)) != NULL)){
-		char * buffer = new char[MAX_PATH];
-		sprintf(buffer, "%s", c);
-		result.pushTail(buffer);
-	}
-
-	AAssetDir_close(assetDir);
-
-	return result;
-}
-
-
-void Art::loadLevels(){
-	LOGI("Art::loadLevels");
-	List<char*> files = loadFilesList(PATH_LEVELS);
-	levelsCount = files.getLength();
-	char buffer[MAX_PATH];
-	if(!files.isEmpty()){
-		levels = new Level*[levelsCount];
-		char* file;
-		bool exists = files.getHead(file);
-		int i = 0;
-		while(exists){
-			sprintf(buffer, "%s/%s", PATH_LEVELS, file);
-			levels[i++] = new Level(file, loadPng(buffer));
-			exists = files.getNext(file);
-		}
-		files.clear();
-	}
-}
 
 void Art::loadTextures(){
 	LOGI("Art:loadTextures");
 	char buffer[MAX_PATH];
 	texturesSources = new Texture*[TEXTURES_COUNT];
-	//LOGI(buffer);
+	LOGI("create texture count");
 	texturesSources[blinkyUp] = loadPng("textures/blinky_1.png");
 	texturesSources[blinkyDown] = loadPng("textures/blinky_2.png");
 	texturesSources[blinkyLeft] = loadPng("textures/blinky_3.png");
 	texturesSources[blinkyRight] = loadPng("textures/blinky_4.png");
 
+	LOGI("create texture blinky");
 	texturesSources[pacmanDownClose] = loadPng("textures/pman_2.png");
 	texturesSources[pacmanDownOpen] = loadPng("textures/pman_2_2.png");
-
 	texturesSources[pacmanUpClose] = loadPng("textures/pman_1.png");
 	texturesSources[pacmanUpOpen] = loadPng("textures/pman_1_2.png");
-
 	texturesSources[pacmanLeftClose] = loadPng("textures/pman_3.png");
 	texturesSources[pacmanLeftOpen] = loadPng("textures/pman_3_2.png");
-
 	texturesSources[pacmanRightClose] = loadPng("textures/pman_4.png");
 	texturesSources[pacmanRightOpen] = loadPng("textures/pman_4_2.png");
-
-
+	LOGI("create texture pacman");
+	//texrute map
+	texturesSources[angle_ld] = loadPng("textures/angle_ld.png");
+	texturesSources[angle_lv] = loadPng("textures/angle_lv.png");
+	texturesSources[angle_rd] = loadPng("textures/angle_rd.png");
+	texturesSources[angle_rv] = loadPng("textures/angle_rv.png");
+	texturesSources[arc_down] = loadPng("textures/arc_down.png");
+	texturesSources[arc_left] = loadPng("textures/arc_left.png");
+	texturesSources[arc_right] = loadPng("textures/arc_right.png");
+	texturesSources[arc_up] = loadPng("textures/arc_up.png");
+	texturesSources[arc2_down] = loadPng("textures/arc2_down.png");
+	texturesSources[arc2_left] = loadPng("textures/arc2_left.png");
+	texturesSources[arc2_right] = loadPng("textures/arc2_right.png");
+	texturesSources[arc2_up] = loadPng("textures/arc2_up.png");
+	texturesSources[vertical] = loadPng("textures/vertical.png");
+	texturesSources[horizontal] = loadPng("textures/horizontal.png");
+	texturesSources[background] = loadPng("textures/background.png");
+	texturesSources[point] = loadPng("textures/point.png");
+	LOGI("create texture map");
 
 	texturesSources[TEXTURE_FONT_CONSOLAS] = loadPng("textures/font_consolas.png");
 //	texturesSources[TEXTURE_ALL_LEVELS] = makeTextureFromLevels();
@@ -421,65 +393,13 @@ void Art::loadTextures(){
 }
 
 
-Texture* Art::makeTextureFromLevels(){
-	LOGI("Art::makeTextureFromLevels");
-
-	if(levelsCount <= 0){
-		return NULL;
-	}
-
-	int w = LEVELS_ON_SIDE_COUNT*MAX_LEVEL_SIZE;
-	int h = w;
-	char* pixels = new char[w*h*4];
-	memset(pixels, 0, w*h*4*sizeof(char));
-
-	levelsTexCoords = new GLfloat*[levelsCount];
-	float fWidth = (float) LEVELS_ON_SIDE_COUNT*MAX_LEVEL_SIZE;
-	float fHeight = fWidth;
-
-	for(int k = 0; k < levelsCount && k < MAX_LEVELS_COUNT; ++k){
-
-		/*Compute position of this level*/
-		int posX = k % LEVELS_ON_SIDE_COUNT;
-		int posY = k / LEVELS_ON_SIDE_COUNT;
-
-		int globalOffset =
-				posX*MAX_LEVEL_SIZE*4 +
-				posY*MAX_LEVEL_SIZE*MAX_LEVEL_SIZE*LEVELS_ON_SIDE_COUNT*4;
-
-		Texture* currentLevel = levels[k]->map;
-		int iLevelWidth = currentLevel->width < MAX_LEVEL_SIZE ? currentLevel->width : MAX_LEVEL_SIZE;
-		int iLevelHeight = currentLevel->height < MAX_LEVEL_SIZE ? currentLevel->height : MAX_LEVEL_SIZE;
+ List<Brick*> getBricks(char* map) {
+        List<Brick*>* bricks = new List<Brick*>();
 
 
-		/*Print level image to big image*/
-		for(int i = 0; i < iLevelHeight; ++i){
-			memcpy(&(pixels[globalOffset + i*MAX_LEVEL_SIZE*LEVELS_ON_SIDE_COUNT*4]), &(currentLevel->pixels[i*currentLevel->width*4]), iLevelWidth*4);
-		}
 
-		/*Compute texture coords of this level in big texture*/
-		float fLevelWidth = float(iLevelWidth) / (float)(MAX_LEVEL_SIZE*LEVELS_ON_SIDE_COUNT);
-		float fLevelHeight = float(iLevelHeight) / (float)(MAX_LEVEL_SIZE*LEVELS_ON_SIDE_COUNT);
-		float fX = (float)posX / float(LEVELS_ON_SIDE_COUNT);
-		float fY = (float)posY / float(LEVELS_ON_SIDE_COUNT);
 
-		GLfloat tempCoords[12] = {
-			fX, fY, fX + fLevelWidth, fY, fX + fLevelWidth, fY + fLevelHeight,
-			fX + fLevelWidth, fY + fLevelHeight, fX, fY + fLevelHeight, fX, fY
-		};
-
-		levelsTexCoords[k] = new GLfloat[12];
-
-		for(int i = 0; i < 12; ++i){
-			levelsTexCoords[k][i] = tempCoords[i];
-		}
-
-	}
-
-	return new Texture(pixels, w, h);
-
-}
-
+    }
 
 
 

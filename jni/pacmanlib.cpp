@@ -19,8 +19,9 @@
 #include "model/World.h"
 #include "Controller/WorldController.h"
 #include "View/Art.h"
+#include "model/ReadLevel.h"
 
-#define MAX_ELAPSED_TIME 100.0f
+#define MAX_ELAPSED_TIME 1000.0f
 
 static double getTime()
 {
@@ -34,6 +35,7 @@ double up2Second;
 int framesCount;
 
 WorldController* worldController;
+ReadLevel* readLevel;
 
 extern "C" {
 
@@ -42,9 +44,9 @@ extern "C" {
 		lastTime = getTime();
 		up2Second = 0;
 		framesCount = 0;
-
-
-		worldController = new WorldController(new World(),new WorldRenderer(env, width,height, pngManager, assetManager));
+		readLevel = new ReadLevel(env, assetManager);
+		readLevel->loadLevels();
+		worldController = new WorldController(new World(readLevel->bricks),new WorldRenderer(env, width,height, pngManager, assetManager));
 	}
 
 
@@ -87,6 +89,7 @@ extern "C" {
 	JNIEXPORT jboolean JNICALL Java_com_pacman_free_PacmanLib_free(JNIEnv* env, jobject obj){
 		LOGI("native free");
 		delete worldController;
+		delete readLevel;
 //		Art::freeENV(env);
 		LOGI("native free OK");
 	}

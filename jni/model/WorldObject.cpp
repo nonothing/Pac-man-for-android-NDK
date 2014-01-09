@@ -1,5 +1,7 @@
 #include "WorldObject.h"
     WorldObject::WorldObject(Point* point, int texture, int width, int height) {
+    	this->width = width;
+    	this->height = height;
         position = new Point(point->getX(), point->getY(), width, height);
         bounds = new Rectangle(position->getX(), position->getY(), width, height);
 

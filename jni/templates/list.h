@@ -1,231 +1,78 @@
-#ifndef LIST_H_
-#define LIST_H_
-
-#include <stdlib.h>
-
-template<class T>
-class List{
-
+#ifndef ARRAYLIST_H
+#define ARRAYLIST_H
+template <class  T>
+class List {
 private:
-
-	struct Node{
-		T data;
-		struct Node* next;
-		struct Node* prev;
-	};
-
-	Node* head;
-	Node* tail;
-	Node* cursor;
-	int length;
-
+	static const int INITIALSIZE = 10;
+	static const int EXPANDSIZE = 5;
+	int capacity;		// Current list capacity
+	int count;			// Number of elements in list
+	T* items;			// Array of items in the list
+	void expand();		// Expands size of array by EXPANDSIZE
 public:
-
-	static const int INDEX_UNKNOWN = -1;
-
-	List():head(NULL), tail(NULL), cursor(NULL), length(0){}
-
-	List(const List& other){
-		operator=(other);
-	}
-
-	virtual ~List(){
-		clear();
-	}
-
-	int getLength() const{
-		return length;
-	}
-
-	bool isEmpty() const{
-		return length == 0;
-	}
-
-	int indexOf(const T& what) const{
-		Node* temp = head;
-		int index = 0;
-		while(temp){
-			if(temp->data == what){
-				return index;
-			}
-			temp = temp->next;
-			++index;
-		}
-		return INDEX_UNKNOWN;
-	}
-
-	void pushHead(const T& data){
-		++length;
-		if(!head){
-			head = new Node();
-			head->data = data;
-			head->prev = NULL;
-			head->next = NULL;
-			tail = head;
-		}else{
-			Node* temp = new Node();
-			temp->data = data;
-			temp->next = head;
-			head->prev = temp;
-			head = temp;
-		}
-	}
-
-	void pushTail(const T& data){
-		++length;
-		if(!tail){
-			head = new Node();
-			head->data = data;
-			head->prev = NULL;
-			head->next = NULL;
-			tail = head;
-		}else{
-			Node* temp = new Node();
-			temp->data = data;
-			temp->prev = tail;
-			tail->next = temp;
-			tail = temp;
-		}
-	}
-
-	bool getHead(T& dest){
-		if(head){
-			dest = head->data;
-			cursor = head;
-			return true;
-		}
-		return false;
-	}
-
-	bool getTail(T& dest){
-		if(tail){
-			dest = tail->data;
-			cursor = tail;
-			return true;
-		}
-		return false;
-	}
-
-	bool getNext(T& dest){
-		if(cursor){
-			cursor = cursor->next;
-			if(cursor){
-				dest = cursor->data;
-				return true;
-			}
-		}
-		return false;
-	}
-
-	bool getPrev(T& dest){
-		if(cursor){
-			cursor = cursor->prev;
-			if(cursor){
-				dest = cursor->data;
-				return true;
-			}
-		}
-		return false;
-	}
-
-	void clear(){
-		cursor = head;
-		Node* temp = cursor;
-		while(cursor){
-			cursor = cursor->next;
-			delete temp;
-			temp = cursor;
-		}
-		length = 0;
-		head = tail = cursor = NULL;
-	}
-
-	bool removeAt(int index){
-
-		if(index >= 0 && index < length){
-			cursor = head;
-			for(int i = 0; i < index; ++i){
-				cursor = cursor->next;
-			}
-
-			if(cursor->prev){
-				cursor->prev->next = cursor->next;
-			}else{
-				head = cursor->next;
-			}
-			if(cursor->next){
-				cursor->next->prev = cursor->prev;
-			}else{
-				tail = cursor->prev;
-			}
-
-			--length;
-
-			delete cursor;
-			cursor = NULL;
-
-			return true;
-		}
-
-		return false;
-	}
-
-	bool removeItem(const T& item){
-		cursor = head;
-		while(cursor){
-			if(cursor->data == item){
-				Node* temp;
-
-				if(cursor->prev){
-					cursor->prev->next = cursor->next;
-					temp = cursor->prev;
-				}else{
-					head = cursor->next;
-					temp = head;
-				}
-				if(cursor->next){
-					cursor->next->prev = cursor->prev;
-				}else{
-					tail = cursor->prev;
-				}
-
-				delete cursor;
-				cursor = temp;
-				--length;
-				return true;
-			}
-			cursor = cursor->next;
-		}
-
-		return false;
-	}
-
-	T& operator[](int k) const{
-
-		Node* temp = head;
-		for(int i = 0; i < k; ++i){
-			temp = temp->next;
-		}
-
-		return temp->data;
-
-	}
-
-	List<T>& operator=(const List<T>& other){
-		if(this == &other){
-			return (*this);
-		}
-		clear();
-		Node* temp = other.head;
-		while(temp){
-			pushTail(temp->data);
-			temp = temp->next;
-		}
-
-		return (*this);
-	}
-
+	List ();
+	~List () { delete [] items; }
+	void append (const T& item);
+	void clear () { count = 0; }
+	T get (int index) const { return items[index]; }
+	void insert (int index, const T& item);
+	void remove (int index);
+	void set (int index, const T& item) { items[index] = item; }
+	int size () const { return count; }
+	void traverse (void(*f)(const T&)) const;
+	void traverse (void(*f)(T&));
 };
 
+template <class T>
+List<T>::List () {
+	items = new T[INITIALSIZE];
+	capacity = INITIALSIZE;
+	count = 0;
+}
 
-#endif /* LIST_H_ */
+template <class T>
+void List<T>::append (const T& item) {
+	if (count == capacity)
+		expand();
+	items[count++] = item;
+}
+
+template <class T>
+void List<T>::expand () {
+	T* tmp = new T[capacity += EXPANDSIZE];
+	for (int i = 0; i < count; i++)
+		tmp[i] = items[i];
+	delete [] items;
+	items = tmp;
+}
+
+template <class T>
+void List<T>::insert (int index, const T& item) {
+	if (count == capacity)
+		expand();
+	for (int i = count - 1; i >= index; i--)
+		items[i + 1] = items[i];
+	items[index] = item;
+	count++;
+}
+
+template <class T>
+void List<T>::remove (int index) {
+	for (int i = index + 1; i < count; i++)
+		items[i - 1] = items[i];
+	count--;
+}
+
+template <class T>
+void List<T>::traverse (void(*f)(const T&)) const {
+	for (int i = 0; i < count; i++)
+		f(items[i]);
+}
+
+template <class T>
+void List<T>::traverse (void(*f)(T&)) {
+	for (int i = 0; i < count; i++)
+		f(items[i]);
+}
+
+#endif

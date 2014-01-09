@@ -9,9 +9,11 @@ private:
 
 public:
     Rectangle(int x, int y, int width, int height);
-    bool intersects(Rectangle r);
+    bool intersects(Rectangle* r);
     int getY();
     int getX();
+    int getWidht();
+    int getHeight();
 
 };
 #endif /* Rectangle_H_ */

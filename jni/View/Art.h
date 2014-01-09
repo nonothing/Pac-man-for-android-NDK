@@ -16,9 +16,10 @@
 #include "templates/list.h"
 
 #include "View/Texture.h"
-#include "View/Level.h"
 #include "View/Variables.h"
 #include "View/ETexture.h"
+#include "model/AAssetFile.h"
+#include "model/Brick.h"
 
 class Art {
 
@@ -26,18 +27,18 @@ public:
 	Art();
 	void init(JNIEnv* env, jint screenWidth, jint screenHeight, jobject _pngManager, jobject javaAssetManager);
 	GLuint getTexture(int id);
-	Level* getLevel(int number);
 	void freeENV(JNIEnv* env);
 	bool setupGraphics(int width, int height);
 	GLuint shiftProgram;
 	GLuint stableProgram;
 	float width;
 	float height;
+	List<Brick*>* bricks;
 private:
 
 	const char* PATH_LEVELS;
 	const char* texturesPath;
-
+//	void loadLevels();
 	JNIEnv* pmEnv;
 	AAssetManager* assetManager;
 	jobject pngManager;
@@ -58,7 +59,6 @@ private:
 	char** shadersSources;
 	GLuint* shaderPrograms;
 
-	Level** levels;
 	int levelsCount;
 	GLfloat** levelsTexCoords;
 
@@ -77,11 +77,10 @@ private:
 	GLuint shiftMatrixHandle;
 
 	void initOpenGL();
-	void loadLevels();
+
 	void loadTextures();
 	void generateTextures();
 	Texture* loadPng(const char* filename);
-	Texture* makeTextureFromLevels();
 	void compilePrograms();
 	List<char*> loadFilesList(const char* path);
 	char* loadTextFile(const char* filename);

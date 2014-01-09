@@ -1,3 +1,5 @@
+#ifndef WorldObjectMove_H_
+#define WorldObjectMove_H_
 #include "Direction.h"
 #include "WorldObject.h"
 class WorldObjectMove: public WorldObject {
@@ -21,3 +23,4 @@ public:
 	int getPointY();
 
 };
+#endif /* WorldObjectMove_H_ */

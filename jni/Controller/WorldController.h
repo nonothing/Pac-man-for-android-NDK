@@ -7,7 +7,7 @@
 
 class WorldController {
 private:
-	Direction direction;
+	int direction;
 //     World world;
 //     GameLogic logic;
 //     Timer mainTimer;

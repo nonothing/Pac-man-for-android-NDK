@@ -1,7 +1,7 @@
 #include "WorldObjectMove.h"
 
 WorldObjectMove::WorldObjectMove(Point* point, int texture, int width, int height) :WorldObject(point,texture,width, height){
-	SPEED =2.5;
+	SPEED =1;
     direction = UP;
  }
 

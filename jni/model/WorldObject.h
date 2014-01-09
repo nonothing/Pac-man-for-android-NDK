@@ -1,3 +1,5 @@
+#ifndef WorldObject_H_
+#define WorldObject_H_
 #include "model/Point.h"
 #include "model/Rectangle.h"
 
@@ -12,6 +14,7 @@ protected:
      Rectangle* bounds;
 
 public:
+    WorldObject(){};
     WorldObject(Point* point, int texture, int width, int height);
     int getWidth();
     int getHeight();
@@ -27,3 +30,4 @@ public:
     }
     int inverse(int count);
 };
+#endif /* WorldObject_H_ */
