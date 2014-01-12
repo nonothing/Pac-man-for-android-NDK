@@ -1,11 +1,14 @@
 #include "model/Brick.h"
+#include "model/Level.h"
 class ReadLevel{
 public:
 	char* token;
+	Level* level;
 	List<Brick*>* bricks;
 	AAssetManager* assetManager;
 	ReadLevel(JNIEnv* env,  jobject javaAssetManager){
 		assetManager = AAssetManager_fromJava(env, javaAssetManager);
+		level = new Level();
 	}
 		int get_number() {
 			int res = 0;
@@ -81,22 +84,26 @@ public:
 					            	bricks->append(new Brick(new Point(x, y), arc2_up,30,30));
 					                break;
 					            case 16:
-					            	bricks->append(new Brick(new Point(x, y), background,30,30));//TODO texture bonus
+					            	bricks->append(new Brick(new Point(x, y), bonus,30,30));
 					                break;
 					            case 90:
-					            	bricks->append(new Brick(new Point(x, y), background,30,30));//TODO create point Blinky
+					            	level->pointBlinky = new Point(x, y);
+					            	bricks->append(new Brick(new Point(x, y), none,30,30));
 					                break;
 					            case 91:
-					            	bricks->append(new Brick(new Point(x, y), background,30,30));//TODO create point Pinky
+					            	level->pointPinky = new Point(x, y);
+					            	bricks->append(new Brick(new Point(x, y), none,30,30));
 					                break;
 					            case 92:
-					            	bricks->append(new Brick(new Point(x, y), background,30,30));//TODO create point Clyde
+					            	level->pointClyde = new Point(x, y);
+					            	bricks->append(new Brick(new Point(x, y), none,30,30));
 					                break;
 					            case 93:
-					            	bricks->append(new Brick(new Point(x, y), background,30,30));//TODO create point Inky
+					            	level->pointInky = new Point(x, y);
+					            	bricks->append(new Brick(new Point(x, y), none,30,30));
 					                break;
 					            case 99:
-					            	bricks->append(new Brick(new Point(x, y), background,30,30));//TODO texture none
+					            	bricks->append(new Brick(new Point(x, y), none,30,30));
 					                break;
 					            default:
 					            	bricks->append(new Brick(new Point(x, y), background,30,30));
@@ -110,9 +117,8 @@ public:
 					            if (y == 15) {
 					                y = 0;
 					            }
-		//			LOGE("f= %d ",get_number());
 					}
-
+				level->bricks = bricks;
 		}
 
 };

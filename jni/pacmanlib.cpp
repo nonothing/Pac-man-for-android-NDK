@@ -46,7 +46,7 @@ extern "C" {
 		framesCount = 0;
 		readLevel = new ReadLevel(env, assetManager);
 		readLevel->loadLevels();
-		worldController = new WorldController(new World(readLevel->bricks),new WorldRenderer(env, width,height, pngManager, assetManager));
+		worldController = new WorldController(new World(readLevel->level),new WorldRenderer(env, width,height, pngManager, assetManager));
 	}
 
 

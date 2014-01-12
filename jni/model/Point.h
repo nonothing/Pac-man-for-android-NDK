@@ -13,6 +13,6 @@ public:
     Point(Rectangle* rectangle);
     int getX();
     int getY();
-
+    Point* multiply(int size);
 };
 #endif /* Point_H_ */

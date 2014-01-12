@@ -193,6 +193,7 @@ void Art::generateTextures(){
 	}
 	LOGI("Art::forend");
 	textures[TEXTURE_BRUSHES] = generateBrushesTexture();
+	isCreateTexture=true;
 	LOGI("Art::end");
 }
 
@@ -210,7 +211,11 @@ GLuint Art::createTexture(Texture* texture){
 	glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_S, GL_REPEAT);
 	glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_T, GL_REPEAT);
 	LOGI("Art::glTexParameteri");
+	if(texture !=NULL){
+		LOGI("Art::texture !=NULL");
 	glTexImage2D(GL_TEXTURE_2D, 0, GL_RGBA, texture->width, texture->height, 0, GL_RGBA, GL_UNSIGNED_BYTE, texture->pixels);
+	LOGI("Art::glTexImage2Dd");
+	}
 	LOGI("Art::glTexImage2D");
 	return textureId;
 }
@@ -351,40 +356,68 @@ void Art::loadTextures(){
 	LOGI("Art:loadTextures");
 	char buffer[MAX_PATH];
 	texturesSources = new Texture*[TEXTURES_COUNT];
-	LOGI("create texture count");
+	//LOGI(buffer);
 	texturesSources[blinkyUp] = loadPng("textures/blinky_1.png");
 	texturesSources[blinkyDown] = loadPng("textures/blinky_2.png");
 	texturesSources[blinkyLeft] = loadPng("textures/blinky_3.png");
 	texturesSources[blinkyRight] = loadPng("textures/blinky_4.png");
 
-	LOGI("create texture blinky");
+	texturesSources[inkyUp] = loadPng("textures/inky_1.png");
+	texturesSources[inkyDown] = loadPng("textures/inky_2.png");
+	texturesSources[inkyLeft] = loadPng("textures/inky_3.png");
+	texturesSources[inkyRight] = loadPng("textures/inky_4.png");
+
+	texturesSources[pinkyUp] = loadPng("textures/pinky_1.png");
+	texturesSources[pinkyDown] = loadPng("textures/pinky_2.png");
+	texturesSources[pinkyLeft] = loadPng("textures/pinky_3.png");
+	texturesSources[pinkyRight] = loadPng("textures/pinky_4.png");
+
+	texturesSources[clydeUp] = loadPng("textures/clyde_1.png");
+	texturesSources[clydeDown] = loadPng("textures/clyde_2.png");
+	texturesSources[clydeLeft] = loadPng("textures/clyde_3.png");
+	texturesSources[clydeRight] = loadPng("textures/clyde_4.png");
+
+	texturesSources[orbUp] = loadPng("textures/orb_1.png");
+	texturesSources[orbDown] = loadPng("textures/orb_2.png");
+	texturesSources[orbLeft] = loadPng("textures/orb_3.png");
+	texturesSources[orbRight] = loadPng("textures/orb_4.png");
+
+	texturesSources[spiritDefence] = loadPng("textures/spirit_defence.png");
+	texturesSources[spiritDefenceWhite] = loadPng("textures/spirit_defence_2.png");
+
+
+
 	texturesSources[pacmanDownClose] = loadPng("textures/pman_2.png");
 	texturesSources[pacmanDownOpen] = loadPng("textures/pman_2_2.png");
+
 	texturesSources[pacmanUpClose] = loadPng("textures/pman_1.png");
 	texturesSources[pacmanUpOpen] = loadPng("textures/pman_1_2.png");
+
 	texturesSources[pacmanLeftClose] = loadPng("textures/pman_3.png");
 	texturesSources[pacmanLeftOpen] = loadPng("textures/pman_3_2.png");
+
 	texturesSources[pacmanRightClose] = loadPng("textures/pman_4.png");
 	texturesSources[pacmanRightOpen] = loadPng("textures/pman_4_2.png");
-	LOGI("create texture pacman");
-	//texrute map
-	texturesSources[angle_ld] = loadPng("textures/angle_ld.png");
-	texturesSources[angle_lv] = loadPng("textures/angle_lv.png");
-	texturesSources[angle_rd] = loadPng("textures/angle_rd.png");
-	texturesSources[angle_rv] = loadPng("textures/angle_rv.png");
-	texturesSources[arc_down] = loadPng("textures/arc_down.png");
-	texturesSources[arc_left] = loadPng("textures/arc_left.png");
-	texturesSources[arc_right] = loadPng("textures/arc_right.png");
-	texturesSources[arc_up] = loadPng("textures/arc_up.png");
-	texturesSources[arc2_down] = loadPng("textures/arc2_down.png");
-	texturesSources[arc2_left] = loadPng("textures/arc2_left.png");
-	texturesSources[arc2_right] = loadPng("textures/arc2_right.png");
-	texturesSources[arc2_up] = loadPng("textures/arc2_up.png");
-	texturesSources[vertical] = loadPng("textures/vertical.png");
-	texturesSources[horizontal] = loadPng("textures/horizontal.png");
-	texturesSources[background] = loadPng("textures/background.png");
-	texturesSources[point] = loadPng("textures/point.png");
-	LOGI("create texture map");
+
+		texturesSources[angle_ld] = loadPng("textures/angle_ld.png");
+		texturesSources[angle_lv] = loadPng("textures/angle_lv.png");
+		texturesSources[angle_rd] = loadPng("textures/angle_rd.png");
+		texturesSources[angle_rv] = loadPng("textures/angle_rv.png");
+		texturesSources[arc_down] = loadPng("textures/arc_down.png");
+		texturesSources[arc_left] = loadPng("textures/arc_left.png");
+		texturesSources[arc_right] = loadPng("textures/arc_right.png");
+		texturesSources[arc_up] = loadPng("textures/arc_up.png");
+		texturesSources[arc2_down] = loadPng("textures/arc2_down.png");
+		texturesSources[arc2_left] = loadPng("textures/arc2_left.png");
+		texturesSources[arc2_right] = loadPng("textures/arc2_right.png");
+		texturesSources[arc2_up] = loadPng("textures/arc2_up.png");
+		texturesSources[vertical] = loadPng("textures/vertical.png");
+		texturesSources[horizontal] = loadPng("textures/horizontal.png");
+		texturesSources[background] = loadPng("textures/background.png");
+		texturesSources[point] = loadPng("textures/point.png");
+		texturesSources[bonus] = loadPng("textures/bonus.png");
+		texturesSources[none] = loadPng("textures/none.png");
+
 
 	texturesSources[TEXTURE_FONT_CONSOLAS] = loadPng("textures/font_consolas.png");
 //	texturesSources[TEXTURE_ALL_LEVELS] = makeTextureFromLevels();

@@ -4,12 +4,13 @@
 #include "Rectangle.h"
 #include "Point.h"
 #include "WorldObject.h"
+#include "View/ETexture.h"
 class Brick :public WorldObject{
 public:
 	Brick(){};
 	Brick(Point* position , int texture ,int width, int height);
-    bool tryToEat(Rectangle rectangle);
-    bool tryToBonus(Rectangle rectangle);
+    bool tryToEat(Rectangle* rectangle);
+    bool tryToBonus(Rectangle* rectangle);
 };
 
 

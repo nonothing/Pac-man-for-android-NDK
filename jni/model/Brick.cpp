@@ -4,10 +4,18 @@ Brick::Brick(Point* position, int texture, int width, int height) :
 
 }
 
-bool Brick::tryToBonus(Rectangle rectangle){
-	return false;
+bool Brick::tryToBonus(Rectangle* rectangle){
+	  if (bounds->intersects(rectangle) && getTexture() == bonus) {
+	            setTexture(background);
+	            return true;
+	        }
+	        return false;
 }
 
-bool Brick::tryToEat(Rectangle rectangle){
+bool Brick::tryToEat(Rectangle* rectangle) {
+	if (bounds->intersects(rectangle) && getTexture() == point) {
+		setTexture(background);
+		return true;
+	}
 	return false;
 }

@@ -4,17 +4,34 @@ Player::Player(Point* position , int texture ,int width, int height) :WorldObjec
 		life = 3;
 	}
 
+bool Player::eatPoint(List<Brick*>* bricks){
+	for(int i=0; i < bricks->size(); i++){
+	            if(bricks->get(i)->tryToEat(bounds))
+	                return true;
+	        }
+	        return false;
+}
+
+bool Player::eatBonus(List<Brick*>* bricks) {
+	for(int i=0; i < bricks->size(); i++){
+		if(bricks->get(i)->tryToBonus(bounds)){
+//           state = State.ATTACK;
+           return true;
+           }
+   }
+   return false;
+}
+
 void Player::animate() {
         bool change =
                 (getPosition()->getX() % 15 == 0 && (direction == LEFT || direction == RIGHT))
                 || (getPosition()->getY() % 15 == 0 && (direction == UP || direction == DOWN));
 
-        if(isOpen && change){
-        	isOpen = false;
+        if(change){
+        	if(isOpen)isOpen = false;
+        	else isOpen = true;
         }
-        else if(!isOpen && change){
-        	isOpen = true;
-        }
+
         if (direction == LEFT) {
             if (isOpen) {
                 setTexture(pacmanLeftOpen);

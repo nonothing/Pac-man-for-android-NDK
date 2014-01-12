@@ -25,9 +25,10 @@ public:
     Rectangle* getBounds();
     void setBounds(int x, int y, int width, int height);
     void setTexture(int texture);
-    void animate() {
+    virtual void animate() {
         // do nothing
     }
+//    virtual void ~animate(){};
     int inverse(int count);
 };
 #endif /* WorldObject_H_ */

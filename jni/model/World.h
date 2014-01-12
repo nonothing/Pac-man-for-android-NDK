@@ -4,14 +4,17 @@
 #include "Player.h"
 #include "Point.h"
 #include "Brick.h"
-#include "View/ETexture.h"
 #include  "templates/list.h"
+#include "View/ETexture.h"
 #include "log.h"
+#include "model/Spirit/Spirit.h"
+#include "Level.h"
+
+class Spirit;
 class World {
     
  private:
 	 Player* player;
-//  List<Spirit> spirits;
 
   int  width;
   int  height;
@@ -19,23 +22,15 @@ class World {
   int record;
   int score;
 
-//  Point* pointBlinky;
-//  Point* pointInky;
-//  Point* pointPinky;
-//  Point* pointClyde;
 //  Fruit* fruit;
-
-//    public List<Brick> bricks;
-//    public List<Brick> oldBricks;
-
 
  public:
   World();
-  World(List<Brick*>* b);
-//  World(Level level, int record);
+  World(Level* level);
 //     void startPointSpirit(Level level) ;
 //     void nextLevel(Level level, int record);
 	 List<Brick*>* bricks;
+	 List<Spirit*>* spirits;
      void startPointPlayer();
      void createSpirit() ;
      void generateFruit();
@@ -53,23 +48,13 @@ class World {
      bool deadSpirit();
      bool isVictory();
      bool isGameOver();
-     int getWidth();
-     int getHeight() ;
-//     Iterable<Brick> getBricks();
-//     List<Spirit> getSpirits() ;
+     int getWidth(){return 25;};
+     int getHeight(){return 15;} ;
      Player* getPlayer() ;
      int getRecord();
      void setRecord(int newRecord);
      int getScore();
      void setScore(int score);
-//     Point getPointBlinky();
-     void setPointBlinky(Point pointBlinky);
-//     Point getPointinky();
-     void setPointinky(Point pointinky);
-//     Point getPointPinky();
-     void setPointPinky(Point pointPinky);
-//     Point getPointClyde() ;
-     void setPointClyde(Point pointClyde);
 //     Fruit getFruit();
     
 };

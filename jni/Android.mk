@@ -16,6 +16,11 @@ LOCAL_SRC_FILES := \
 	model/World.cpp\
 	model/Player.cpp\
 	model/Brick.cpp\
+	model/Spirit/Spirit.cpp\
+	model/Spirit/Blinky.cpp\
+	model/Spirit/Clyde.cpp\
+	model/Spirit/Inky.cpp\
+	model/Spirit/Pinky.cpp\
 	pacmanlib.cpp \
 	View/Art.cpp \
 	View/WorldRenderer.cpp \

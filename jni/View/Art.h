@@ -16,8 +16,8 @@
 #include "templates/list.h"
 
 #include "View/Texture.h"
-#include "View/Variables.h"
 #include "View/ETexture.h"
+#include "View/Variables.h"
 #include "model/AAssetFile.h"
 #include "model/Brick.h"
 
@@ -34,6 +34,7 @@ public:
 	float width;
 	float height;
 	List<Brick*>* bricks;
+	bool isCreateTexture;
 private:
 
 	const char* PATH_LEVELS;

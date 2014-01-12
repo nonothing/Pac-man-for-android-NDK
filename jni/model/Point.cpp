@@ -23,3 +23,6 @@ int Point::getY() {
 	return y;
 }
 
+Point* Point::multiply(int size) {
+	return new Point(x, y, size,size);
+}

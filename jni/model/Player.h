@@ -2,7 +2,8 @@
 #define Player_H_
 #include "WorldObjectMove.h"
 #include "View/ETexture.h"
-
+#include "Brick.h"
+#include  "templates/list.h"
 class Player :public WorldObjectMove{
 private:
 	int life;
@@ -10,23 +11,8 @@ private:
 public:
 Player(Point* position , int texture ,int width, int height);
 
-//    bool eatPoint(Iterable<Brick> bricks) {
-//        for (Brick brick : bricks) {
-//            if(brick.tryToEat(bounds))
-//                return true;
-//        }
-//        return false;
-//    }
-
-//     bool eatBonus(Iterable<Brick> bricks) {
-//        for (Brick brick : bricks) {
-//            if(brick.tryToBonus(bounds)){
-//                state = State.ATTACK;
-//                return true;
-//                }
-//        }
-//        return false;
-//    }
+    bool eatPoint(List<Brick*>* bricks);
+    bool eatBonus(List<Brick*>* bricks);
 
     void animate();
     int getLife();

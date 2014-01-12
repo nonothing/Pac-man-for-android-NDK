@@ -30,15 +30,19 @@ void WorldRenderer::render(){
 	checkGlError("glClearColor");
 	glClear( GL_DEPTH_BUFFER_BIT | GL_COLOR_BUFFER_BIT);
 	checkGlError("glClear");
-	world->getPlayer()->animate();
-		glUseProgram(art->stableProgram);
+	if(art->isCreateTexture == true){
 
 	for(int i=0; i < world->bricks->size()-1; i++){
 		draw(world->bricks->get(i)->getTexture(),
 				world->bricks->get(i)->getPosition()->getX(),
 				world->bricks->get(i)->getPosition()->getY());
 	}
+	for(int i=0; i < world->spirits->size(); i++){
+		draw(world->spirits->get(i)->getTexture(),world->spirits->get(i)->getPosition()->getX(), world->spirits->get(i)->getPosition()->getY());
+	}
 	draw(world->getPlayer()->getTexture(), world->getPlayer()->getPosition()->getX(),world->getPlayer()->getPosition()->getY());
+	}
+	glUseProgram(art->stableProgram);
 
 }
 

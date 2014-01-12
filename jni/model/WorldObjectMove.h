@@ -2,6 +2,7 @@
 #define WorldObjectMove_H_
 #include "Direction.h"
 #include "WorldObject.h"
+#include "State.h"
 class WorldObjectMove: public WorldObject {
 
 protected:

@@ -31,6 +31,7 @@ WorldObjectMove::WorldObjectMove(Point* point, int texture, int width, int heigh
  }
 
  void WorldObjectMove::setDirection(int direction) {
+	 animate();
      this->direction = direction;
  }
 
