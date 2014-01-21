@@ -5,10 +5,6 @@
 
 class Clyde: public Spirit {
 
-private:
-	Point* START_POINT;
-	Point* DEFENCE_POINT;
-
 public:
 	Clyde();
 	Clyde(Point* point);

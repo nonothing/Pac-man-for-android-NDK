@@ -18,6 +18,11 @@ private:
 	void newGame();
 public:
 	WorldController(World* world, WorldRenderer* worldRenderer);
+	~WorldController(){
+		LOGI("WorldController::~WorldController");
+		delete worldRenderer;
+		LOGI("WorldController::~WorldController finished");
+	};
 	WorldRenderer* worldRenderer;
 	World* world;
 	void startGame();
@@ -26,6 +31,7 @@ public:
 	void onResume();
 	void setSound(bool isSound);
 	void actionPerformed();
+	void actionPerformedSpirit(bool isDefence);
 	void setScore(int score);
 	void openNextLevel();
 	void nextLevel(int level, int record);

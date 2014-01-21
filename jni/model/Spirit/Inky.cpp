@@ -114,3 +114,4 @@ Inky::Inky(Point* point) :
      int  Inky::up() {
         return inkyUp;
     }
+

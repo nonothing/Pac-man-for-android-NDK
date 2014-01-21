@@ -9,6 +9,7 @@
 #include "log.h"
 #include "model/Spirit/Spirit.h"
 #include "Level.h"
+#include "View/Art.h"
 
 class Spirit;
 class World {
@@ -27,6 +28,7 @@ class World {
  public:
   World();
   World(Level* level);
+  ~World();
 //     void startPointSpirit(Level level) ;
 //     void nextLevel(Level level, int record);
 	 List<Brick*>* bricks;
@@ -54,6 +56,7 @@ class World {
      int getRecord();
      void setRecord(int newRecord);
      int getScore();
+     int leftSpirit;
      void setScore(int score);
 //     Fruit getFruit();
     

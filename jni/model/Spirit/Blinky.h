@@ -6,10 +6,6 @@
 
 class Blinky: public Spirit {
 
-private:
-	Point* START_POINT;
-	Point* DEFENCE_POINT;
-
 public:
 	Blinky();
 	Blinky(Point* point);

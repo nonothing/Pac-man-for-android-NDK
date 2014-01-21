@@ -30,8 +30,8 @@ void WorldRenderer::render(){
 	checkGlError("glClearColor");
 	glClear( GL_DEPTH_BUFFER_BIT | GL_COLOR_BUFFER_BIT);
 	checkGlError("glClear");
-	if(art->isCreateTexture == true){
 
+	if(art->isCreateTexture == true){
 	for(int i=0; i < world->bricks->size()-1; i++){
 		draw(world->bricks->get(i)->getTexture(),
 				world->bricks->get(i)->getPosition()->getX(),
@@ -40,6 +40,7 @@ void WorldRenderer::render(){
 	for(int i=0; i < world->spirits->size(); i++){
 		draw(world->spirits->get(i)->getTexture(),world->spirits->get(i)->getPosition()->getX(), world->spirits->get(i)->getPosition()->getY());
 	}
+	world->getPlayer()->animate();
 	draw(world->getPlayer()->getTexture(), world->getPlayer()->getPosition()->getX(),world->getPlayer()->getPosition()->getY());
 	}
 	glUseProgram(art->stableProgram);
@@ -131,9 +132,10 @@ void WorldRenderer::create(GLuint _shiftProgram, Art* _art){
 
 }
 WorldRenderer::~WorldRenderer() {
-	LOGI("Engine::~Engine");
-
-	LOGI("Engine::~Engine finished");
+	LOGI("WorldRenderer::~WorldRenderer");
+	delete art;
+	delete world;
+	LOGI("WorldRenderer::~WorldRenderer finished");
 }
 
 void WorldRenderer::draw(int _texture,float  shiftX, float shiftY){

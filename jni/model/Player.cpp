@@ -2,6 +2,7 @@
 
 Player::Player(Point* position , int texture ,int width, int height) :WorldObjectMove(position,texture,width,height){
 		life = 3;
+		state = DEFENCE;
 	}
 
 bool Player::eatPoint(List<Brick*>* bricks){
@@ -15,7 +16,7 @@ bool Player::eatPoint(List<Brick*>* bricks){
 bool Player::eatBonus(List<Brick*>* bricks) {
 	for(int i=0; i < bricks->size(); i++){
 		if(bricks->get(i)->tryToBonus(bounds)){
-//           state = State.ATTACK;
+           state = ATTACK;
            return true;
            }
    }

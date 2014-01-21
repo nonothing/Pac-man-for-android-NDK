@@ -34,7 +34,6 @@ void Art::init(JNIEnv* env, jint _screenWidth, jint _screenHeight, jobject _pngM
 	pmGetPixelsId = env->GetMethodID(pmClass, "getPixels", "(Landroid/graphics/Bitmap;[I)V");
 
 	assetManager = AAssetManager_fromJava(env, javaAssetManager);
-
 	screenWidth = _screenWidth;
 	screenHeight = _screenHeight;
 
@@ -425,15 +424,9 @@ void Art::loadTextures(){
 
 }
 
-
  List<Brick*> getBricks(char* map) {
         List<Brick*>* bricks = new List<Brick*>();
-
-
-
-
     }
-
 
 
 GLuint Art::compileShader(GLenum shaderType, const char* pSource) {

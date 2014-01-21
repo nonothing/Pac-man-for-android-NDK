@@ -4,8 +4,8 @@ class ReadLevel{
 public:
 	char* token;
 	Level* level;
-	List<Brick*>* bricks;
 	AAssetManager* assetManager;
+
 	ReadLevel(JNIEnv* env,  jobject javaAssetManager){
 		assetManager = AAssetManager_fromJava(env, javaAssetManager);
 		level = new Level();
@@ -32,7 +32,7 @@ public:
 				int count = f.read(&buf,f.size(),1);
 				buf[f.size()] = '\0';
 				f.close();
-				bricks = new List<Brick*>();
+				List<Brick*>* bricks = new List<Brick*>();
 				token = buf;
 				int x = 0;
 				int y = 0;

@@ -10,6 +10,7 @@
 class WorldRenderer{
 public:
 	WorldRenderer(JNIEnv* env, jint _screenWidth, jint _screenHeight, jobject _pngManager, jobject javaAssetManager);
+	~WorldRenderer();
 	void setWorld(World* world);
 	void initLogic();
 	void initGraphics(Art* _art);
@@ -18,7 +19,6 @@ public:
 	void load();
 	void draw(int _texture, GLfloat shiftX, GLfloat shiftY);
 	void create(GLuint _shiftProgram, Art* _art);
-	virtual ~WorldRenderer();
 	Art* art;
 	World* world;
 	float tileSize;

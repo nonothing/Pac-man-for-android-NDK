@@ -12,6 +12,7 @@ protected:
 
 public:
 	WorldObjectMove(Point* point, int texture, int width, int height);
+	virtual ~WorldObjectMove(){LOGI("WorldObjectMove::~WorldObjectMove finished");};
 	void onMove(int direction);
 	int getSpeed();
 	int getState();

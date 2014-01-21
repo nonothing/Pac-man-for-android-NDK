@@ -2,6 +2,7 @@
 #define WorldObject_H_
 #include "model/Point.h"
 #include "model/Rectangle.h"
+#include "log.h"
 
 class WorldObject {
 private:
@@ -15,12 +16,14 @@ protected:
 
 public:
     WorldObject(){};
+    virtual ~WorldObject();
     WorldObject(Point* point, int texture, int width, int height);
     int getWidth();
     int getHeight();
     void setWidth(int width);
     void setHeight(int height);
     Point* getPosition();
+    void setPositionPoint(Point* point);
     int getTexture() ;
     Rectangle* getBounds();
     void setBounds(int x, int y, int width, int height);
@@ -28,7 +31,6 @@ public:
     virtual void animate() {
         // do nothing
     }
-//    virtual void ~animate(){};
     int inverse(int count);
 };
 #endif /* WorldObject_H_ */

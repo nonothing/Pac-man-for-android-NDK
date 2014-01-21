@@ -11,5 +11,12 @@ public:
 	  Point* pointInky;
 	  Point* pointPinky;
 	  Point* pointClyde;
+	  ~Level(){
+		  delete bricks;
+		  delete pointBlinky;
+		  delete pointInky;
+		  delete pointPinky;
+		  delete pointClyde;
+	  }
 };
 #endif /* Level_H_ */

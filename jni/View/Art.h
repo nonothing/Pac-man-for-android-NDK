@@ -25,23 +25,26 @@ class Art {
 
 public:
 	Art();
+	~Art(){
+		LOGI("Art::~Art");
+//		delete bricks; //TODO
+		LOGI("Art::~Art finished");
+	}
+
 	void init(JNIEnv* env, jint screenWidth, jint screenHeight, jobject _pngManager, jobject javaAssetManager);
 	GLuint getTexture(int id);
 	void freeENV(JNIEnv* env);
 	bool setupGraphics(int width, int height);
 	GLuint shiftProgram;
 	GLuint stableProgram;
-	float width;
-	float height;
 	List<Brick*>* bricks;
 	bool isCreateTexture;
-private:
+	AAssetManager* assetManager;
 
+private:
 	const char* PATH_LEVELS;
 	const char* texturesPath;
-//	void loadLevels();
 	JNIEnv* pmEnv;
-	AAssetManager* assetManager;
 	jobject pngManager;
 	jclass pmClass;
 	jmethodID pmOpenId;

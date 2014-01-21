@@ -8,13 +8,21 @@
 #include "model/World.h"
 #include "View/ETexture.h"
 
+
 class World;
 class Spirit: public WorldObjectMove {
+protected:
+	Point* START_POINT;
+	Point* DEFENCE_POINT;
 
 public:
 	Spirit();
+	~Spirit(){
+		for (int i = 0; i < width; i++)
+		  delete map[i];
+		delete map;
+	};
 	Spirit(Point* position , int texture ,int width, int height);
-
 	virtual void ai(World* world){};
 	virtual int left(){};
 	virtual int right(){};
@@ -26,7 +34,7 @@ public:
 	int getCountStep();
 	void setCountStep(int countStep);
 	void setDefence(bool isDefence);
-
+	Point* getStartPoint(){return START_POINT;}
 
 private:
 	int countStep;

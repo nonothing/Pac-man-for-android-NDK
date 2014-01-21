@@ -10,7 +10,7 @@ Spirit::Spirit(Point* position, int texture, int width, int height) :
 
      void Spirit::refresh(World* world) {
         if (getState() == DEAD) {
-                state = world->collidesWithRefresh(getBounds());
+        	setState( world->collidesWithRefresh(getBounds()));
         }
     }
 
@@ -45,7 +45,7 @@ Spirit::Spirit(Point* position, int texture, int width, int height) :
             setTexture(orbRight);
             break;
         case UP:
-            setTexture(orbUp);//TODO
+            setTexture(orbUp);
             break;
         case DOWN:
             setTexture(orbDown);
@@ -55,7 +55,7 @@ Spirit::Spirit(Point* position, int texture, int width, int height) :
 
      void Spirit::onLoadImageDefence(bool isWhite) {
         if (isWhite) {
-            setTexture(spiritDefenceWhite);//TODO
+            setTexture(spiritDefenceWhite);
         } else {
             setTexture(spiritDefence);
         }

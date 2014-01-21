@@ -24,13 +24,24 @@ void WorldController::setSound(bool isSound) {
 }
 
 void WorldController::newGame() {
+	world->createSpirit();
+	world->startPointPlayer();
+	world->leftSpirit =3;
+}
 
+void WorldController::actionPerformedSpirit(bool isDefence) {
+		for(int i=0; i < world->spirits->size() - world->leftSpirit; i++){
+			if(world->spirits->get(i)->getState() == DEFENCE)
+				world->spirits->get(i)->setDefence(isDefence);
+			world->spirits->get(i)->go(world);
+		}
 }
 
 void WorldController::actionPerformed() {
-
 	world->tryToPlayerGo(direction);
-	worldRenderer->render();
+	if(world->getPlayer()->getState() == DEAD){
+		newGame();
+	}
 }
 
 void WorldController::setScore(int score) {

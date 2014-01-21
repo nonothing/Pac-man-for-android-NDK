@@ -8,6 +8,13 @@
         this->texture = texture;
     }
 
+     WorldObject::~WorldObject(){
+    	LOGI("WorldObject::~WorldObject");
+    	delete position;
+    	delete bounds;
+    	LOGI("WorldObject::~WorldObject finished");
+    }
+
     int WorldObject::getWidth() {
         return width;
     }
@@ -40,6 +47,11 @@
 
     void WorldObject::setTexture(int texture) {
         this->texture = texture;
+    }
+
+    void WorldObject::setPositionPoint(Point* point){
+    	position = new Point(point->getX(), point->getY(), width, height);
+    	bounds = new Rectangle(position->getX(), position->getY(), width, height);
     }
 
     int WorldObject::inverse(int count) {

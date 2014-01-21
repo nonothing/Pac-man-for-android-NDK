@@ -15,11 +15,14 @@
 
 #include "log.h"
 
+
 #include "model/ActionTouch.h"
 #include "model/World.h"
 #include "Controller/WorldController.h"
 #include "View/Art.h"
 #include "model/ReadLevel.h"
+#include "Controller/SoundController.h"
+
 
 #define MAX_ELAPSED_TIME 1000.0f
 
@@ -35,7 +38,12 @@ double up2Second;
 int framesCount;
 
 WorldController* worldController;
+SoundController* soundController;
+World* world;
 ReadLevel* readLevel;
+
+int second=0;
+bool leftDefenceSpirit;
 
 extern "C" {
 
@@ -46,10 +54,12 @@ extern "C" {
 		framesCount = 0;
 		readLevel = new ReadLevel(env, assetManager);
 		readLevel->loadLevels();
-		worldController = new WorldController(new World(readLevel->level),new WorldRenderer(env, width,height, pngManager, assetManager));
+		world = new World(readLevel->level);
+		worldController = new WorldController(world,new WorldRenderer(env, width,height, pngManager, assetManager));
+		soundController = new SoundController(world, env,assetManager);
 	}
 
-
+bool isCreate;
 	JNIEXPORT void JNICALL Java_com_pacman_free_PacmanLib_step(JNIEnv* env, jobject obj){
 		double time = getTime();
 		double elapsedTime = time - lastTime;
@@ -59,7 +69,8 @@ extern "C" {
 			elapsedTime = MAX_ELAPSED_TIME;
 		}
 
-		worldController->actionPerformed();
+
+		worldController->worldRenderer->render();
 
 		up2Second += elapsedTime;
 		++framesCount;
@@ -68,9 +79,47 @@ extern "C" {
 			up2Second = 0;
 			framesCount = 0;
 		}
+		isCreate=true;
 	}
 
-	JNIEXPORT jboolean JNICALL Java_com_pacman_free_PacmanLib_stop(JNIEnv* env, jobject obj){
+	bool leftTime;
+
+	JNIEXPORT void JNICALL Java_com_pacman_free_PacmanLib_attackSpirits(JNIEnv* env, jobject obj){
+		if(isCreate){
+			worldController->actionPerformedSpirit(leftDefenceSpirit);
+			if (worldController->world->getPlayer()->getState() == ATTACK) {
+			                    leftTime = true;
+			                }
+		}
+	}
+
+	JNIEXPORT void JNICALL Java_com_pacman_free_PacmanLib_pacmanMove(JNIEnv* env, jobject obj){
+		if(isCreate){
+			worldController->actionPerformed();
+			soundController->play();
+		}
+	}
+
+	JNIEXPORT void JNICALL Java_com_pacman_free_PacmanLib_timeBonus(JNIEnv* env, jobject obj){
+		if(isCreate){
+			if(worldController->world->leftSpirit > 0)
+				worldController->world->leftSpirit--;
+			 if (leftTime) {
+			                    second++;
+			                    if (second >= 8 && second % 2 == 0) {
+			                        leftDefenceSpirit = true;
+			                    } else {
+			                        leftDefenceSpirit = false;
+			                    }
+
+			                    if (second >= 12) {
+			                        world->attackNPC();
+			                        leftDefenceSpirit = false;
+			                        second = 0;
+			                        leftTime = false;
+			                    }
+			            }
+		}
 	}
 
 
@@ -88,9 +137,9 @@ extern "C" {
 
 	JNIEXPORT jboolean JNICALL Java_com_pacman_free_PacmanLib_free(JNIEnv* env, jobject obj){
 		LOGI("native free");
+		isCreate=false;
+		delete soundController;
 		delete worldController;
-		delete readLevel;
-//		Art::freeENV(env);
 		LOGI("native free OK");
 	}
 
